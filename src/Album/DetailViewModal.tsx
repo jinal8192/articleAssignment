@@ -23,12 +23,10 @@ function DetailViewModal(props: any) {
                     {props?.params?.album?.tracks?.track?.map((item) => {
                         return (
                             <Row>
-                                <Col md={4}>
-                                    <h6>{item.name}</h6>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    <a href={item.url} target="_blank">{item.url}</a>
-                                </Col>
+                                <div className="d-flex justify-content-between border border-top-0">
+                                    <h6> {item.name} </h6>
+                                    <div style={{flex: "0 0 80%"}}> <a href={item.url} target="_blank">{item.url}</a></div>
+                                </div>
                             </Row>
                         );
                     })}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Api from "./Api/api";
+import Api from "../Api/api";
 import styles from "./Album.module.css";
 
 const DetailViewModal = React.lazy(() => import('./DetailViewModal'));

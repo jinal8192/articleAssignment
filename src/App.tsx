@@ -1,46 +1,21 @@
-import React, { Suspense, useEffect, useState } from "react";
-import Api from "./Api/api";
+import React from "react";
 
-// import SpotifyWebApi from "spotify-web-api-js";
-const Album = React.lazy(() => import('./Album'));
-const Login = React.lazy(() => import('./Login'));
+const Album = React.lazy(() => import('./Album/Album'));
+const Login = React.lazy(() => import('./Login/Login'));
 
-// const s = new SpotifyWebApi();
-interface User {
-  error? : string;
-  session?: Object;
+function getToken() {
+  const loggedInUser = sessionStorage.getItem('token');
+  if (loggedInUser) {
+    const foundUser = JSON.parse(loggedInUser);
+    return foundUser;
+  }
 }
 
 function App() {
-
-  const [user, setUser] = useState<User>();
-  const token = window?.location?.href?.includes('token')
-
-  const loggedInOrNot = async () => {
-    if (token) {
-      try {
-        const response = await Api.loginWithSession();
-        const data = await response.json();
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
-  useEffect(() => {
-    loggedInOrNot();
-  }, []);
-
-
-  return (
-    <div className="app">
-      {!user?.error ? <Suspense fallback={<div>Loading...</div>}>
-        <Album />
-      </Suspense> : <Login />}
-    </div>
-  );
+  const token = getToken();
+  if (!token) {
+    return <Login token={token} />
+  } else return <Album />
 }
 
 export default App;
